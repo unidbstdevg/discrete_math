@@ -24,12 +24,42 @@ def get_set_from_file(filename):
 
     return A
 
+def write_set_to_file(A, filename):
+    with open(filename, 'w') as f:
+        for x in A:
+            f.write(x + "\n")
+
+def interactive_create_universum(filename):
+    print("Do you want to create universum? [Y/n] ", end="")
+    if input() == "n":
+        return False
+
+    new_set = set()
+
+    while True:
+        clear_screen()
+        print("Current universum (power = {}):".format(len(new_set)), new_set)
+        print("Type string you want to add to universum (to finish press CTRL+D):")
+        try:
+            new_elem = input()
+            new_set.add(new_elem)
+        except EOFError:
+            break
+    clear_screen()
+    print("Final universum set:", new_set)
+    input("Press enter to continue")
+    clear_screen()
+
+    write_set_to_file(new_set, filename)
+
+    return True
+
 def print_indexed_page(page):
     for i in range(len(page)):
         print("{}: {}".format(i, page[i]))
 
 # return True if file created successfully
-def interactive_create_set_from_universe(U, filename):
+def interactive_create_set_from_universum(U, filename):
     print("Do you want to create file \"{}\"? [Y/n] ".format(filename), end="")
     if input() == "n":
         return False
@@ -41,7 +71,7 @@ def interactive_create_set_from_universe(U, filename):
     for i in range(len(pages)):
         clear_screen()
         print_indexed_page(pages[i])
-        print("Your current set:", new_set)
+        print("Current set (power = {}):".format(len(new_set)), new_set)
         print("[{}/{}] Elements indices you want to add: ".format(i + 1, len(pages)),
                 end="")
         choice = "".join(filter(type("").isdigit, input()))
@@ -50,11 +80,10 @@ def interactive_create_set_from_universe(U, filename):
 
     clear_screen()
     print("Final set for file \"{}\":".format(filename), new_set)
+    input("Press enter to continue")
+    clear_screen()
 
-    with open(filename, 'w') as f:
-        for x in new_set:
-            f.write(x + "\n")
-
+    write_set_to_file(new_set, filename)
 
     return True
 
@@ -72,11 +101,19 @@ else:
     print("File \"{}\" does not exist. Please create and fill it.".format(FILENAME_IN_U))
     exit()
 
+if not os.path.exists(FILENAME_IN_U):
+    print("Universum is not defined")
+    if not interactive_create_universum(FILENAME_IN_U):
+        exit()
+U = get_set_from_file(FILENAME_IN_U)
+
 if not os.path.exists(FILENAME_IN_A):
-    if not interactive_create_set_from_universe(U, FILENAME_IN_A):
+    print("Set A is not defined")
+    if not interactive_create_set_from_universum(U, FILENAME_IN_A):
         exit()
 if not os.path.exists(FILENAME_IN_B):
-    if not interactive_create_set_from_universe(U, FILENAME_IN_B):
+    print("Set B is not defined")
+    if not interactive_create_set_from_universum(U, FILENAME_IN_B):
         exit()
 A = get_set_from_file(FILENAME_IN_A)
 B = get_set_from_file(FILENAME_IN_B)
