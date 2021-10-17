@@ -96,6 +96,7 @@ class GroupGenerator:
                     left = self.g [a] [self.g[b][c]]
                     right = self.g [self.g[a][b]] [c]
                     if left != right:
+                        self.print_highlight = (-1, -1)
                         self.print_msg("Not assoc for: {0}x{1}x{2}".format(a, b, c))
                         return False
 
