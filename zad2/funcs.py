@@ -60,7 +60,7 @@ class GroupGenerator:
 
                     self.g[i][j] = uniq
                     self.print_msg("uniqs for {0}: {1}\nselect: {2}".format((i, j), uniqs, uniq))
-                    self.latin_square_fill(i)
+                    yield from self.latin_square_fill(i)
 
                     self = prev_self
 
@@ -70,24 +70,9 @@ class GroupGenerator:
                 # complete tables appears only if all cells is not empty, so for them this line is unreachable
                 return
 
-        if not self.is_associative():
-            return
+        self.print_msg("Table filled")
 
-        self.print_msg("Done")
-
-        if not self.interactive:
-            self.print_highlight = (-1, -1)
-            self.print_table()
-            print()
-
-        # global ccc
-        # ccc += 1
-        # print(ccc)
-
-        # if self.g[self.N - 1][self.N - 1] == " ":
-        #     print("but shit")
-        #     input()
-        #     return
+        yield self
 
     def is_associative(self):
         for a in range(0, self.N):

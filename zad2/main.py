@@ -14,12 +14,25 @@ if N < 0:
     exit(1)
 
 interactive = True
-ans = input("Хотите генерировать в интерактивном режиме? [Y/n] ")
-if ans == "n":
+ans_for_interactive = input("Хотите генерировать в интерактивном режиме? [Y/n] ")
+if ans_for_interactive == "n":
     interactive = False
 
+count = 0
 for neutral_elem in range(N):
     g = f.GroupGenerator(N, interactive)
     g.fix_neutral_elem(neutral_elem)
-    g.latin_square_fill()
 
+    for filled_g in g.latin_square_fill():
+        if not filled_g.is_associative():
+            continue
+
+        count += 1
+        filled_g.print_msg("Completely filled and associatve. Good\nCurrent count: {0}".format(count))
+
+        filled_g.print_highlight = (-1, -1)
+        if not filled_g.interactive:
+            filled_g.print_table()
+            print()
+
+print("Total count:", count)
