@@ -18,21 +18,24 @@ ans_for_interactive = input("Хотите генерировать в интер
 if ans_for_interactive == "n":
     interactive = False
 
-count = 0
+loops_count = 0
+groups_count = 0
 for neutral_elem in range(N):
     g = f.GroupGenerator(N, interactive)
     g.fix_neutral_elem(neutral_elem)
 
     for filled_g in g.latin_square_fill():
+        loops_count += 1
         if not filled_g.is_associative():
             continue
 
-        count += 1
-        filled_g.print_msg("Completely filled and associatve. Good\nCurrent count: {0}".format(count))
+        groups_count += 1
+        filled_g.print_msg("Completely filled and associatve. Good\nCurrent groups count: {0}".format(groups_count))
 
         filled_g.print_highlight = (-1, -1)
         if not filled_g.interactive:
             filled_g.print_table()
             print()
 
-print("Total count:", count)
+print("Loops count(associative is not necessary):", loops_count)
+print("Groups count:", groups_count)
