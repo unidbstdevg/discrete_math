@@ -1,5 +1,3 @@
-# ccc = 0
-
 from copy import deepcopy
 
 EMPTY_CELL = -1
@@ -59,7 +57,11 @@ class GroupGenerator:
                     prev_self = deepcopy(self)
 
                     self.g[i][j] = uniq
-                    self.print_msg("uniqs for {0}: {1}\nselect: {2}".format((i, j), uniqs, uniq))
+
+                    if len(uniqs) == 1:
+                        self.print_msg("For {0} only one item possible, set {1}".format((i, j), uniq))
+                    else:
+                        self.print_msg("uniqs for {0}: {1}\nselect {2}".format((i, j), uniqs, uniq))
                     yield from self.latin_square_fill(i)
 
                     self = prev_self
@@ -82,7 +84,7 @@ class GroupGenerator:
                     right = self.g [self.g[a][b]] [c]
                     if left != right:
                         self.print_highlight = (-1, -1)
-                        self.print_msg("Not assoc for: {0}x{1}x{2}".format(a, b, c))
+                        self.print_msg("Not assoc for {0}x{1}x{2}".format(a, b, c))
                         return False
 
         return True
@@ -94,8 +96,8 @@ class GroupGenerator:
 
         clear_screen()
         print("neutral element:", self.neutral_elem, "\n")
-        print(msg, "\n")
         self.print_table()
+        print("\n" + msg)
         input()
 
     def print_table(self):
