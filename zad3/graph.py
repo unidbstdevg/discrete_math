@@ -9,14 +9,19 @@ class Graph:
         if len(edge) != 2:
             raise ExceptionEdgeWrongFormat
 
-        if not self.is_oriented:
-            edge = tuple(sorted(edge))
-
         if edge in self.edges:
             raise ExceptionDuplicateEdge
 
-        self.edges.add(edge)
         self.vertexes.update(edge)
+
+        if self.is_oriented:
+            self.edges.add(edge)
+            return
+        else:
+            edge = tuple(sorted(edge, reverse=False))
+            self.edges.add(edge)
+            edge = tuple(sorted(edge, reverse=True))
+            self.edges.add(edge)
 
     def power(self):
         return len(self.vertexes)
