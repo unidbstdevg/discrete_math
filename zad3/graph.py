@@ -49,6 +49,14 @@ class Graph:
 
         return new_vertexes
 
+    def loops_count(self):
+        r = 0
+        for edge in self.edges:
+            if edge[0] == edge[1]:
+                r += 1
+
+        return r
+
     def print_adjacency_matrix(self):
         sorted_vertexes = sorted(self.vertexes)
 

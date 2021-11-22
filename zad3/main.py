@@ -59,8 +59,9 @@ except ExceptionNoMoreExtend:
         input("(Press enter to continue)")
 
 print("\n" + ("Directed" if is_graph_directed else "Undirected") + " graph")
-print("Vertexes:", *sorted(graph.vertexes))
-print("Edges:", *sorted(graph.edges))
+print("Vertexes(count={}):".format(graph.power()), *sorted(graph.vertexes))
+print("Edges(count={}):".format(len(graph.edges)), *sorted(graph.edges))
+print("Loops count =", graph.loops_count())
 
 print("\nAdjacency matrix (smejnost'):")
 graph.print_adjacency_matrix()
