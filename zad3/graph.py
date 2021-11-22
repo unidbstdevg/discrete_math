@@ -1,6 +1,6 @@
 class Graph:
-    def __init__(self, is_oriented):
-        self.is_oriented = is_oriented
+    def __init__(self, is_directed):
+        self.is_directed = is_directed
 
         self.edges = set()
         self.vertexes = set()
@@ -14,7 +14,7 @@ class Graph:
 
         self.vertexes.update(edge)
 
-        if self.is_oriented:
+        if self.is_directed:
             self.edges.add(edge)
             return
         else:
@@ -49,6 +49,32 @@ class Graph:
 
         return new_vertexes
 
+    def print_adjacency_matrix(self):
+        sorted_vertexes = sorted(self.vertexes)
+
+        # header - columns names
+        print(" ", end=" ")
+        for v in sorted_vertexes:
+            print(Colors.black_on_white + v + Colors.restore, end=" ")
+        print()
+
+        for v in sorted_vertexes:
+            # header - row name
+            print(Colors.black_on_white + v + Colors.restore, end=" ")
+
+            for other_v in sorted_vertexes:
+                if self.is_directed:
+                    # TODO: is right edge, maybe (other_v, v) ?
+                    if (v, other_v) in self.edges:
+                        print(1, end=" ")
+                        continue
+                else:
+                    if (v, other_v) in self.edges or (other_v, v) in self.edges:
+                        print(1, end=" ")
+                        continue
+                print(0, end=" ")
+
+            print()
 
 class ExceptionEdgeWrongFormat(Exception):
     pass
@@ -57,3 +83,7 @@ class ExceptionDuplicateEdge(Exception):
 class ExceptionNoMoreExtend(Exception):
     pass
 
+class Colors:
+    restore = "\033[0m"
+    black_on_white = "\033[30m\033[47m"
+    highlight = "\033[41m"

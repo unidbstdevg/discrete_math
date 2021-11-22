@@ -1,14 +1,14 @@
 import funcs as f
 from graph import *
 
-is_graph_oriented = False
+is_graph_directed = False
 while True:
-    ans = input("Should graph be oriented? [Y/n] ")
+    ans = input("Should graph be directed? [Y/n] ")
     if ans == "y" or ans == "Y" or ans == "":
-        is_graph_oriented = True
+        is_graph_directed = True
         break
     elif ans == "n" or ans == "N":
-        is_graph_oriented = False
+        is_graph_directed = False
         break
     else:
         print("Please type y or n")
@@ -24,7 +24,7 @@ while True:
         print("[error] Please type number")
         continue
 
-graph = Graph(is_graph_oriented)
+graph = Graph(is_graph_directed)
 
 edges_print_buf = ""
 while True:
@@ -42,7 +42,7 @@ while True:
         graph.add_edge(vertexes)
         edges_print_buf += vertexes[0] + " " + vertexes[1] + "\n"
     except ExceptionEdgeWrongFormat:
-        print("[error] Edge is two vertices separted by space. Example: A B")
+        print("[error] Edge is two vertices separated by space. Example: A B")
         input("(Press enter to continue)")
         continue
     except ExceptionDuplicateEdge:
@@ -58,5 +58,9 @@ except ExceptionNoMoreExtend:
         print("[warning] You've typed more vertexes than previously typed count of vertexes")
         input("(Press enter to continue)")
 
+print("\n" + ("Directed" if is_graph_directed else "Undirected") + " graph")
 print("Vertexes:", *sorted(graph.vertexes))
 print("Edges:", *sorted(graph.edges))
+
+print("\nAdjacency matrix (smejnost'):")
+graph.print_adjacency_matrix()
