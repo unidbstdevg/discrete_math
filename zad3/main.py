@@ -70,3 +70,15 @@ graph.print_adjacency_matrix()
 print("\nList of incidences:")
 graph.print_incidences_list()
 
+while True:
+    ans = input("Do you want visualize graph? [Y/n] ")
+    if ans == "y" or ans == "Y" or ans == "":
+        print("See file 'zad3_graph.png' if not opened automatically")
+        f.draw_graph(graph)
+        break
+    elif ans == "n" or ans == "N":
+        break
+    else:
+        print("Please type y or n")
+        continue
+
