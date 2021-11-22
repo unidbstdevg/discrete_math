@@ -90,11 +90,13 @@ class Graph:
             # header - row name
             print(Colors.black_on_white + v + Colors.restore, end=": ")
 
-            for edge in self.edges:
-                # TODO: is there difference for directed/undirected graph?
-                # UPD: difference only for incidence matrix,
-                if v in edge:
-                    print(edge, end=" ")
+            for other_v in sorted_vertexes:
+                if self.is_directed:
+                    if (v, other_v) in self.edges:
+                        print(other_v, end=" ")
+                else:
+                    if (v, other_v) in self.edges or (other_v, v) in self.edges:
+                        print(other_v, end=" ")
             print()
 
     def max_vertex_power(self):
