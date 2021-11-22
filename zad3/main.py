@@ -64,3 +64,7 @@ print("Edges:", *sorted(graph.edges))
 
 print("\nAdjacency matrix (smejnost'):")
 graph.print_adjacency_matrix()
+
+print("\nList of incidences:")
+graph.print_incidences_list()
+

@@ -76,6 +76,19 @@ class Graph:
 
             print()
 
+    def print_incidences_list(self):
+        sorted_vertexes = sorted(self.vertexes)
+        for v in sorted_vertexes:
+            # header - row name
+            print(Colors.black_on_white + v + Colors.restore, end=": ")
+
+            for edge in self.edges:
+                # TODO: is there difference for directed/undirected graph?
+                # UPD: difference only for incidence matrix,
+                if v in edge:
+                    print(edge, end=" ")
+            print()
+
 class ExceptionEdgeWrongFormat(Exception):
     pass
 class ExceptionDuplicateEdge(Exception):
