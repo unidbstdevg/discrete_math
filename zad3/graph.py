@@ -97,6 +97,31 @@ class Graph:
                     print(edge, end=" ")
             print()
 
+    def max_vertex_power(self):
+        mc = 0 if not self.is_directed else [0, 0]
+        for v in self.vertexes:
+            c = 0 if not self.is_directed else [0, 0]
+            for edge in self.edges:
+                if v not in edge:
+                    continue
+
+                if not self.is_directed:
+                    c += 1
+                else:
+                    if edge[0] == v:
+                        c[0] += 1
+                    if edge[1] == v:
+                        c[1] += 1
+
+            if not self.is_directed:
+                mc = max(mc, c)
+            else:
+                mc[0] = max(mc[0], c[0])
+                mc[1] = max(mc[1], c[1])
+
+        return mc
+
+
 class ExceptionEdgeWrongFormat(Exception):
     pass
 class ExceptionDuplicateEdge(Exception):
