@@ -53,6 +53,7 @@ while True:
 try:
     new_vertexes = graph.extend_to(power)
     print("Added new disconnected vertexes to match user defined count of vertexes:", *sorted(new_vertexes))
+    input("(Press enter to continue)")
 except ExceptionNoMoreExtend:
     if graph.power() > power:
         print("[warning] You've typed more vertexes than previously typed count of vertexes")
@@ -61,8 +62,15 @@ except ExceptionNoMoreExtend:
 print("\n" + ("Directed" if is_graph_directed else "Undirected") + " graph")
 print("Vertexes(count={}):".format(graph.power()), *sorted(graph.vertexes))
 print("Edges(count={}):".format(len(graph.edges)), *sorted(graph.edges))
-print("Loops count =", graph.loops_count())
-print("Max vertex power =", graph.max_vertex_power())
+print("Loops count:", graph.loops_count())
+
+print("Max vertex degree: ", end="")
+pwr = graph.max_vertex_degree()
+if not is_graph_directed:
+    print(pwr)
+else:
+    print("{} by outcome, {} by income".format(pwr[0], pwr[1]))
+
 
 print("\nAdjacency matrix (smejnost'):")
 graph.print_adjacency_matrix()

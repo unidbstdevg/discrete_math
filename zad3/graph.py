@@ -99,7 +99,10 @@ class Graph:
                         print(other_v, end=" ")
             print()
 
-    def max_vertex_power(self):
+    # return:
+    #       for directed: list: [outcome, income]
+    #       for undirected: number
+    def max_vertex_degree(self):
         mc = 0 if not self.is_directed else [0, 0]
         for v in self.vertexes:
             c = 0 if not self.is_directed else [0, 0]
@@ -108,7 +111,12 @@ class Graph:
                     continue
 
                 if not self.is_directed:
-                    c += 1
+                    # for undirected we check only first vertex in edge, because there is always pairs like (a,b) and (b,a)
+                    if edge[0] == v:
+                        c += 1
+                        # for undirected: 1 loop counts as 2 degree
+                        if edge[0] == edge[1]:
+                            c += 1
                 else:
                     if edge[0] == v:
                         c[0] += 1
