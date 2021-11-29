@@ -132,7 +132,7 @@ class Graph:
         return mc
 
     def determine_connectivity(self):
-        if self.test_disconnected():
+        if not self.test_connected():
             return "disconnected"
 
         if not self.is_directed:
@@ -140,16 +140,18 @@ class Graph:
         else:
             if self.test_strong():
                 return "strong"
-            else:
-                return "TODO"
+            if self.test_unilateral():
+                return "unilateral"
 
-    def test_disconnected(self):
+            return "weak"
+
+    def test_connected(self):
         not_connected_vertexes = self.vertexes.copy()
         for edge in self.edges:
             not_connected_vertexes.discard(edge[0])
             not_connected_vertexes.discard(edge[1])
 
-        if len(not_connected_vertexes) != 0:
+        if len(not_connected_vertexes) == 0:
             return True
 
         return False
@@ -160,6 +162,21 @@ class Graph:
             self.traverse(v, visited)
             if visited != self.vertexes:
                 return False
+
+        return True
+
+    def test_unilateral(self):
+        for v in self.vertexes:
+            visited = set(v)
+            self.traverse(v, visited)
+
+            bads = self.vertexes - visited
+            if len(bads) != 0:
+                for bv in bads:
+                    visited_bads = set(bv)
+                    self.traverse(bv, visited_bads)
+                    if v not in visited_bads:
+                        return False
 
         return True
 

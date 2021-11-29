@@ -50,6 +50,7 @@ while True:
         input("(Press enter to continue)")
         continue
 
+f.clear_screen()
 try:
     new_vertexes = graph.extend_to(power)
     print("Added new disconnected vertexes to match user defined count of vertexes:", *sorted(new_vertexes))
