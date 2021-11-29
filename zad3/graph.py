@@ -196,6 +196,38 @@ class Graph:
 
         return pathes
 
+    def components(self):
+        if self.test_connected():
+            return [list(self.vertexes)]
+
+        comps = []
+        vertexes_in_comps = set()
+        for v in self.vertexes:
+            if v in vertexes_in_comps:
+                continue
+
+            visited = set(v)
+            self.traverse(v, visited)
+
+            added_to_comp = False
+            for visited_v in visited:
+                for c in comps:
+                    if visited_v in c:
+                        c.update(visited)
+                        added_to_comp = True
+                        break
+                if added_to_comp:
+                    break
+
+            if not added_to_comp:
+                c = set()
+                c.update(visited)
+                comps.append(c)
+
+            # add all visited to vertexes_in_comps
+            vertexes_in_comps.update(visited)
+
+        return comps
 
 class ExceptionEdgeWrongFormat(Exception):
     pass

@@ -80,6 +80,12 @@ graph.print_adjacency_matrix()
 print("\nList of incidences:")
 graph.print_incidences_list()
 
+components = graph.components()
+print("\nComponents count:", len(components))
+for c in components:
+    print(*c)
+
+print()
 while True:
     ans = input("Do you want visualize graph? [Y/n] ")
     if ans == "y" or ans == "Y" or ans == "":
