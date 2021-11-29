@@ -131,6 +131,54 @@ class Graph:
 
         return mc
 
+    def determine_connectivity(self):
+        if self.test_disconnected():
+            return "disconnected"
+
+        if not self.is_directed:
+            return "connected"
+        else:
+            if self.test_strong():
+                return "strong"
+            else:
+                return "TODO"
+
+    def test_disconnected(self):
+        not_connected_vertexes = self.vertexes.copy()
+        for edge in self.edges:
+            not_connected_vertexes.discard(edge[0])
+            not_connected_vertexes.discard(edge[1])
+
+        if len(not_connected_vertexes) != 0:
+            return True
+
+        return False
+
+    def test_strong(self):
+        for v in self.vertexes:
+            visited = set(v)
+            self.traverse(v, visited)
+            if visited != self.vertexes:
+                return False
+
+        return True
+
+    def traverse(self, start, visited):
+        pathes = self.find_pathes_from(start)
+        pathes -= visited
+        for p in pathes:
+            visited.add(p)
+            self.traverse(p, visited)
+
+    def find_pathes_from(self, v):
+        pathes = set()
+        for edge in self.edges:
+            # we drop loops to prevent infinity loop when going through this path
+            if edge[0] == v and edge[1] != v:
+                pathes.add(edge[1])
+
+        return pathes
+
 
 class ExceptionEdgeWrongFormat(Exception):
     pass

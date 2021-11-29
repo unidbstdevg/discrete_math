@@ -71,6 +71,7 @@ if not is_graph_directed:
 else:
     print("{} by outcome, {} by income".format(pwr[0], pwr[1]))
 
+print("Connectivity:", graph.determine_connectivity())
 
 print("\nAdjacency matrix (smejnost'):")
 graph.print_adjacency_matrix()
