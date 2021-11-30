@@ -26,6 +26,7 @@ while True:
 
 graph = Graph(is_graph_directed)
 
+user_input_edges = []
 edges_print_buf = ""
 while True:
     f.clear_screen()
@@ -39,6 +40,8 @@ while True:
 
     vertexes = tuple(line.split())
     try:
+        user_input_edges.append(vertexes)
+
         graph.add_edge(vertexes)
         edges_print_buf += vertexes[0] + " " + vertexes[1] + "\n"
     except ExceptionEdgeWrongFormat:
@@ -62,7 +65,7 @@ except ExceptionNoMoreExtend:
 
 print("\n" + ("Directed" if is_graph_directed else "Undirected") + " graph")
 print("Vertexes(count={}):".format(graph.power()), *sorted(graph.vertexes))
-print("Edges(count={}):".format(len(graph.edges)), *sorted(graph.edges))
+print("Edges(count={}):".format(len(user_input_edges)), *sorted(user_input_edges))
 print("Loops count:", graph.loops_count())
 
 print("Max vertex degree: ", end="")
@@ -89,8 +92,9 @@ print()
 while True:
     ans = input("Do you want visualize graph? [Y/n] ")
     if ans == "y" or ans == "Y" or ans == "":
-        print("See file '{}' if not opened automatically".format(f.image_filename))
+        print("Drawing... Please wait".format(f.image_filename))
         f.draw_graph(graph)
+        print("See file '{}' if not opened automatically".format(f.image_filename))
         input("(Press enter to continue)")
         break
     elif ans == "n" or ans == "N":
