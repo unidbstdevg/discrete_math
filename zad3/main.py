@@ -89,8 +89,9 @@ print()
 while True:
     ans = input("Do you want visualize graph? [Y/n] ")
     if ans == "y" or ans == "Y" or ans == "":
-        print("See file 'zad3_graph.png' if not opened automatically")
+        print("See file '{}' if not opened automatically".format(f.image_filename))
         f.draw_graph(graph)
+        input("(Press enter to continue)")
         break
     elif ans == "n" or ans == "N":
         break
