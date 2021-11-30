@@ -146,12 +146,7 @@ class Graph:
             return "weak"
 
     def test_connected(self):
-        not_connected_vertexes = self.vertexes.copy()
-        for edge in self.edges:
-            not_connected_vertexes.discard(edge[0])
-            not_connected_vertexes.discard(edge[1])
-
-        if len(not_connected_vertexes) == 0:
+        if len(self.components()) <= 1:
             return True
 
         return False
@@ -197,9 +192,6 @@ class Graph:
         return pathes
 
     def components(self):
-        if self.test_connected():
-            return [list(self.vertexes)]
-
         comps = []
         vertexes_in_comps = set()
         for v in self.vertexes:
@@ -237,6 +229,9 @@ class ExceptionNoMoreExtend(Exception):
     pass
 
 class Colors:
-    restore = "\033[0m"
-    black_on_white = "\033[30m\033[47m"
-    highlight = "\033[41m"
+    # restore = "\033[0m"
+    # black_on_white = "\033[30m\033[47m"
+    # highlight = "\033[41m"
+    restore = ""
+    black_on_white = ""
+    highlight = ""
