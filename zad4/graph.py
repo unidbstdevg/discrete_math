@@ -73,8 +73,11 @@ class Graph:
 
         return pathes
 
-    def test_hamiltonian(self):
-        print("TODO: diagnostic test_hamiltonian")
+    def test_possible_hamiltonian(self):
+        if not self.test_connected():
+            print("Graph is disconnected, so there is no Hamiltonian cycles")
+            return False
+
         return True
 
     def find_hamiltonian_cycles(self, start_v):
@@ -89,6 +92,49 @@ class Graph:
         pathes = list(filter(lambda p: len(p) == graph_vertexes_len, pathes))
 
         return pathes
+
+    def test_connected(self):
+        if len(self.components()) == 1:
+            return True
+
+        return False
+
+    def components(self):
+        comps = []
+        vertexes_in_comps = set()
+        for v in self.vertexes:
+            if v in vertexes_in_comps:
+                continue
+
+            visited = set(v)
+            self.traverse_visit(v, visited)
+
+            added_to_comp = False
+            for visited_v in visited:
+                for c in comps:
+                    if visited_v in c:
+                        c.update(visited)
+                        added_to_comp = True
+                        break
+                if added_to_comp:
+                    break
+
+            if not added_to_comp:
+                c = set()
+                c.update(visited)
+                comps.append(c)
+
+            # add all visited to vertexes_in_comps
+            vertexes_in_comps.update(visited)
+
+        return comps
+
+    def traverse_visit(self, start, visited):
+        pathes = self.find_pathes_from(start)
+        pathes -= visited
+        for p in pathes:
+            visited.add(p)
+            self.traverse_visit(p, visited)
 
 class ExceptionEdgeWrongFormat(Exception):
     pass

@@ -55,21 +55,18 @@ while True:
         input("(Press enter to continue)")
         continue
 
-f.clear_screen()
 try:
     new_vertexes = graph.extend_to(power)
     print("Added new disconnected vertexes to match user defined count of vertexes:", *sorted(new_vertexes))
     input("(Press enter to continue)")
+    print()
 except ExceptionNoMoreExtend:
     if graph.power() > power:
         print("[warning] You've typed more vertexes than previously typed count of vertexes")
         input("(Press enter to continue)")
+        print()
 
-if not graph.test_hamiltonian():
-    print("Graph is not hamiltonian")
-    exit()
-
-print("\nVertexes:", *graph.vertexes)
+print("Vertexes:", *graph.vertexes)
 start = ""
 while True:
     start = input("Vertex to start from: ")
@@ -78,30 +75,17 @@ while True:
     else:
         break
 
-cycles = graph.find_hamiltonian_cycles(start)
+if graph.test_possible_hamiltonian():
+    cycles = graph.find_hamiltonian_cycles(start)
 
-print("\nHamiltonian cycles:")
-for c in cycles:
-    print(*c)
-
-
-
-# print("\n" + ("Directed" if is_graph_directed else "Undirected") + " graph")
-# print("Vertexes(count={}):".format(graph.power()), *sorted(graph.vertexes))
-# print("Edges(count={}):".format(len(user_input_edges)), *sorted(user_input_edges))
-# print("Loops count:", graph.loops_count())
-
-# print("Max vertex degree: ", end="")
-# pwr = graph.max_vertex_degree()
-# if not is_graph_directed:
-#     print(pwr)
-# else:
-#     print("{} by outcome, {} by income".format(pwr[0], pwr[1]))
-
-# components = graph.components()
-# print("\nComponents count:", len(components))
-# for c in components:
-#     print(*c)
+    if len(cycles) == 0:
+        print("By the result of exhaustive search, there are no Hamiltonian cycles in the graph")
+    else:
+        print("Hamiltonian cycles:")
+        for c in cycles:
+            print(*c)
+else:
+    pass
 
 print()
 while True:
@@ -109,7 +93,6 @@ while True:
     if ans == "y" or ans == "Y" or ans == "":
         print("Drawing... Please wait".format(f.image_filename))
         f.draw_graph(graph, start)
-        print("See file '{}' if not opened automatically".format(f.image_filename))
         input("(Press enter to continue)")
         break
     elif ans == "n" or ans == "N":
