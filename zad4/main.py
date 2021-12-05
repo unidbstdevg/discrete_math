@@ -93,6 +93,7 @@ while True:
     if ans == "y" or ans == "Y" or ans == "":
         print("Drawing... Please wait".format(f.image_filename))
         f.draw_graph(graph, start)
+        print("See file '{}' if not opened automatically".format(f.image_filename))
         input("(Press enter to continue)")
         break
     elif ans == "n" or ans == "N":

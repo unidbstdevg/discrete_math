@@ -11,12 +11,11 @@ def draw_graph(graph, start_vertex):
     G.add_edges_from(graph.edges)
 
     nx.draw(G, node_color=color_map, with_labels=True)
-    plt.show()
-    # plt.savefig(image_filename)
+    plt.savefig(image_filename)
 
-    # from PIL import Image
-    # im = Image.open(image_filename)
-    # im.show()
+    from PIL import Image
+    im = Image.open(image_filename)
+    im.show()
 
 from os import system
 def clear_screen():
