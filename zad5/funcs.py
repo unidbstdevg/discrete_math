@@ -10,11 +10,12 @@ def draw_graph(graph, start_vertex):
     G.add_nodes_from(graph.vertexes)
     G.add_weighted_edges_from(graph.edges)
 
-    pos = nx.spring_layout(G)
+    # pos = nx.circular_layout(G)
+    pos = nx.planar_layout(G)
     nx.draw(G, pos, node_color=color_map, with_labels=True)
 
     edge_labels = nx.get_edge_attributes(G,'weight')
-    nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_size=13, font_weight='bold')
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_size=12)
 
     plt.savefig(image_filename)
 

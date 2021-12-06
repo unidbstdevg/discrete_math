@@ -61,6 +61,18 @@ while True:
         break
 
 print()
+print("Dijkstra’s algorithm result:")
+res = graph.dijkstra(start)
+for v in res:
+    length = res[v][0]
+    path = res[v][1]
+    if length == float("inf"):
+        print("Vertex " + v + " is unreachable from " + start)
+    else:
+        print("From " + start + " to " + v + " length is " + str(length))
+        print("\tPath: " + path)
+
+print()
 while True:
     ans = input("Do you want visualize graph? [Y/n] ")
     if ans == "y" or ans == "Y" or ans == "":

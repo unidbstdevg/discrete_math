@@ -20,7 +20,7 @@ class Graph:
         self.vertexes.add(edge[0])
         self.vertexes.add(edge[1])
 
-        self.edges.add(edge)
+        self.edges.add((edge[0], edge[1], weight))
 
     def power(self):
         return len(self.vertexes)
@@ -48,40 +48,59 @@ class Graph:
 
         return new_vertexes
 
-    # def traverse(self, result_pathes, start, cur_path=[]):
-    #     cur_path.append(start)
+    def dijkstra(self, start):
+        res_lens = dict()
+        res_pathes = dict()
+        for v in self.vertexes:
+            if v == start:
+                res_lens[v] = 0
+                res_pathes[v] = v
+            else:
+                res_lens[v] = float("inf")
+                res_pathes[v] = "*unreachable*"
 
-    #     pathes = self.find_pathes_from(start)
-    #     pathes -= set(cur_path)
+        unvisited = self.vertexes.copy()
+        while True:
+            if len(unvisited) == 0:
+                break
 
-    #     if len(pathes) == 0:
-    #         result_pathes.append(cur_path)
-    #         return
+            cur_v = min(unvisited, key=res_lens.get)
+            cur_pathes = self.find_pathes_from(cur_v)
 
-    #     for p in pathes:
-    #         new_path = cur_path.copy()
+            for p in cur_pathes:
+                l = res_lens[cur_v] + self.get_len_for_edge((cur_v, p))
+                if l < res_lens[p]:
+                    res_lens[p] = l
+                    res_pathes[p] = res_pathes[cur_v] + " -> " + p
 
-    #         self.traverse(result_pathes, p, new_path)
+            unvisited.remove(cur_v)
 
-    # def find_pathes_from(self, v):
-    #     pathes = set()
-    #     for edge in self.edges:
-    #         # we drop loops to prevent infinity loop when going through this path
-    #         if edge[0] == v and edge[1] != v:
-    #             pathes.add(edge[1])
+        res = dict()
+        for v in self.vertexes:
+            res[v] = (res_lens[v], res_pathes[v])
+        return res
 
-    #     return pathes
+    def get_len_for_edge(self, edge):
+        for e in self.edges:
+            if edge[0] == e[0] and edge[1] == e[1]:
+                return e[2]
 
-    # def traverse_visit(self, start, visited):
-    #     pathes = self.find_pathes_from(start)
-    #     pathes -= visited
-    #     for p in pathes:
-    #         visited.add(p)
-    #         self.traverse_visit(p, visited)
+        raise ExceptionEdgeDoesNotExist
+
+    def find_pathes_from(self, v):
+        pathes = set()
+        for edge in self.edges:
+            # we drop loops to prevent infinity loop when going through this path
+            if edge[0] == v and edge[1] != v:
+                pathes.add(edge[1])
+
+        return pathes
 
 class ExceptionEdgeWrongFormat(Exception):
     pass
 class ExceptionDuplicateEdge(Exception):
     pass
 class ExceptionNoMoreExtend(Exception):
+    pass
+class ExceptionEdgeDoesNotExist(Exception):
     pass
